@@ -1,29 +1,38 @@
 package ra.orm1.service.customer;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ra.orm1.model.Customer;
-import ra.orm1.repository.CustomerRepo;
-import java.util.List;
-import java.util.Optional;
+import ra.orm1.reppsitory.CusRepo;
 
 @Service
-public class CustomerService {
-    public CustomerRepo customerRepo;
+public class CustomerService implements ICustomerService {
+    @Autowired
+    private CusRepo cusRepo;
+    @Autowired
+    private ICustomerService customerService;
 
-    public Customer getUserById(Long id) {
-        Optional<Customer> rs = customerRepo.findById(id);
-        return rs.get();
+    @Override
+    public Page<Customer> findAll(Pageable pageable) {
+        Page<Customer> customers = customerService.findAll(pageable);
+        return customers;
     }
 
-    public Customer save(Customer cus) {
-        return customerRepo.save(cus);
+    @Override
+    public Page<Customer> findAllByName(String name, Pageable pageable) {
+        Page<Customer> customers = customerService.findAllByName(name, pageable);
+        return customers;
     }
 
-    public void delete(Long id) {
-        customerRepo.deleteById(id);
+    @Override
+    public Customer save(Customer customer) {
+        return cusRepo.save(customer);
     }
 
-    public List<Customer> findAllUser() {
-        return (List<Customer>) customerRepo.findAll();
+    @Override
+    public void deleteById(Long id) {
+        cusRepo.deleteById(id);
     }
-
 }

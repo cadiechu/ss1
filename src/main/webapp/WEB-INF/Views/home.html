@@ -22,7 +22,7 @@
     <tbody>
     <th:block th:each="customer : ${customer}">
         <tr>
-            <th scope="row">[[$customer.id]]</th>
+            <th scope="row">[[{customer.id}]]</th>
             <td>[[$customer.name]]</td>
             <td>[[$customer.address]]</td>
             <td>
